@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Búsqueda Lineal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Búsqueda Lineal</h1>
+    <label for="arrayInput">Ingrese números separados por comas:</label>
+    <input type="text" id="arrayInput" placeholder="Ejemplo: 10,7,8,9,1,5">
+    <label for="searchInput">Ingrese el número a buscar:</label>
+    <input type="text" id="searchInput" placeholder="Ejemplo: 8">
+    <button onclick="searchArray()">Buscar</button>
+
+    <h2>Resultado:</h2>
+    <div id="result"></div>
+
+    <script>
+        // Función de búsqueda lineal
+        function linearSearch(arr, target) {
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i] === target) {
+                    return i; // Retorna el índice donde se encontró el elemento
+                }
+            }
+            return -1; // Retorna -1 si el elemento no fue encontrado
+        }
+
+        // Función para obtener la entrada del usuario, buscar el número y mostrar el resultado
+        function searchArray() {
+            let input = document.getElementById('arrayInput').value;
+            let searchInput = document.getElementById('searchInput').value;
+            let array = input.split(',').map(Number);
+            let target = Number(searchInput);
+            let result = linearSearch(array, target);
+            let resultText = (result !== -1) ? `Número encontrado en el índice: ${result}` : "Número no encontrado";
+            document.getElementById('result').innerText = resultText;
+        }
+    </script>
+</body>
+</html>

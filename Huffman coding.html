@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huffman Coding</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        textarea, button {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+        }
+        #output {
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Huffman Coding</h1>
+    <label for="textInput">Ingrese texto para comprimir:</label>
+    <textarea id="textInput" rows="5" placeholder="Ingrese el texto aquí..."></textarea>
+    <button onclick="compress()">Comprimir</button>
+
+    <h2>Texto comprimido:</h2>
+    <div id="output"></div>
+
+    <script>
+        function compress() {
+            let text = document.getElementById('textInput').value;
+            let compressedData = HuffmanCoding.compress(text);
+            document.getElementById('output').innerText = compressedData;
+        }
+
+        // Implementación básica de Huffman Coding en JavaScript
+        var HuffmanCoding = {
+            // Función para calcular la frecuencia de cada carácter en el texto
+            calculateFrequency: function(text) {
+                let frequency = {};
+                for (let char of text) {
+                    if (char in frequency) {
+                        frequency[char]++;
+                    } else {
+                        frequency[char] = 1;
+                    }
+                }
+                return frequency;
+            },
+
+            // Función para construir el árbol Huffman
+            buildTree: function(frequency) {
+                let nodes = Object.keys(frequency).map(function(key) {
+                    return { character: key, frequency: frequency[key], left: null, right: null };
+                });
+
+                while (nodes.length > 1) {
+                    nodes.sort(function(a, b) { return a.frequency - b.frequency; });
+                    let left = nodes.shift();
+                    let right = nodes.shift();
+                    let newNode = {
+                        character: '',
+                        frequency: left.frequency + right.frequency,
+                        left: left,
+                        right: right
+                    };
+                    nodes.push(newNode);
+                }
+
+                return nodes[0];
+            },
+
+            // Función para generar los códigos Huffman recursivamente
+            generateCodes: function(tree, prefix, codes) {
+                if (tree.left === null && tree.right === null) {
+                    codes[tree.character] = prefix;
+                } else {
+                    this.generateCodes(tree.left, prefix + '0', codes);
+                    this.generateCodes(tree.right, prefix + '1', codes);
+                }
+            },
+
+            // Función para comprimir el texto usando los códigos Huffman generados
+            compress: function(text) {
+                let frequency = this.calculateFrequency(text);
+                let tree = this.buildTree(frequency);
+                let codes = {};
+                this.generateCodes(tree, '', codes);
+
+                let compressedData = '';
+                for (let char of text) {
+                    compressedData += codes[char];
+                }
+
+                return compressedData;
+            }
+        };
+    </script>
+</body>
+</html>

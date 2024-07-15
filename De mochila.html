@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problema de la Mochila Entera</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+        #output {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Problema de la Mochila Entera</h1>
+    <label for="capacityInput">Capacidad máxima de la mochila:</label>
+    <input type="number" id="capacityInput" placeholder="Capacidad máxima">
+
+    <label for="weightsInput">Pesos de los objetos (separados por comas):</label>
+    <input type="text" id="weightsInput" placeholder="Ejemplo: 2,3,5">
+
+    <label for="valuesInput">Valores de los objetos (separados por comas):</label>
+    <input type="text" id="valuesInput" placeholder="Ejemplo: 10,20,30">
+
+    <button onclick="knapsack()">Resolver</button>
+
+    <h2>Resultado:</h2>
+    <div id="output"></div>
+
+    <script>
+        function knapsack() {
+            let capacity = parseInt(document.getElementById('capacityInput').value);
+            let weights = document.getElementById('weightsInput').value.split(',').map(Number);
+            let values = document.getElementById('valuesInput').value.split(',').map(Number);
+
+            let n = weights.length;
+            let dp = Array(n + 1).fill().map(() => Array(capacity + 1).fill(0));
+
+            for (let i = 1; i <= n; i++) {
+                for (let w = 1; w <= capacity; w++) {
+                    if (weights[i - 1] <= w) {
+                        dp[i][w] = Math.max(values[i - 1] + dp[i - 1][w - weights[i - 1]], dp[i - 1][w]);
+                    } else {
+                        dp[i][w] = dp[i - 1][w];
+                    }
+                }
+            }
+
+            let selectedItems = [];
+            let totalValue = dp[n][capacity];
+            let w = capacity;
+
+            for (let i = n; i > 0 && totalValue > 0; i--) {
+                if (totalValue !== dp[i - 1][w]) {
+                    selectedItems.push(weights[i - 1]);
+                    totalValue -= values[i - 1];
+                    w -= weights[i - 1];
+                }
+            }
+
+            document.getElementById('output').innerHTML = `Valor máximo obtenido: ${dp[n][capacity]} <br>`;
+            document.getElementById('output').innerHTML += `Peso de los objetos seleccionados: ${selectedItems.join(', ')}`;
+        }
+    </script>
+</body>
+</html>

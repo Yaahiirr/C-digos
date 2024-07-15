@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algoritmo de Búsqueda en Anchura (BFS)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Algoritmo de Búsqueda en Anchura (BFS)</h1>
+    <label for="startNode">Ingrese el nodo de inicio:</label>
+    <input type="text" id="startNode" placeholder="Ejemplo: A">
+    <button onclick="performBFS()">Realizar BFS</button>
+
+    <h2>Resultado del Recorrido:</h2>
+    <div id="result"></div>
+
+    <script>
+        // Definición del grafo
+        const graph = {
+            A: ['B', 'C', 'D'],
+            B: ['E', 'F'],
+            C: ['G'],
+            D: [],
+            E: [],
+            F: ['H'],
+            G: [],
+            H: []
+        };
+
+        // Función de Búsqueda en Anchura (BFS)
+        function bfs(start) {
+            let queue = [start];
+            let visited = new Set();
+            let result = [];
+
+            while (queue.length > 0) {
+                let node = queue.shift();
+                if (!visited.has(node)) {
+                    visited.add(node);
+                    result.push(node);
+                    let neighbors = graph[node];
+                    for (let neighbor of neighbors) {
+                        queue.push(neighbor);
+                    }
+                }
+            }
+            return result;
+        }
+
+        // Función para obtener el nodo de inicio, realizar BFS y mostrar el resultado
+        function performBFS() {
+            let startNode = document.getElementById('startNode').value;
+            if (graph[startNode]) {
+                let bfsResult = bfs(startNode);
+                document.getElementById('result').innerText = bfsResult.join(' -> ');
+            } else {
+                document.getElementById('result').innerText = 'Nodo de inicio no válido';
+            }
+        }
+    </script>
+</body>
+</html>

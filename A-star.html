@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A* Algorithm Visualization</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(10, 40px);
+            gap: 2px;
+        }
+        .cell {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            color: #333;
+        }
+        .start, .end {
+            background-color: #2ecc71;
+        }
+        .wall {
+            background-color: #34495e;
+        }
+        .path {
+            background-color: #3498db;
+        }
+        .open {
+            background-color: #f1c40f;
+        }
+        .closed {
+            background-color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <h1>A* Algorithm Visualization</h1>
+    <div class="grid" id="grid"></div>
+    <button onclick="runAStar()">Run A*</button>
+
+    <script>
+        const ROWS = 10;
+        const COLS = 10;
+        const grid = [];
+        let startCell = { row: 0, col: 0 };
+        let endCell = { row: ROWS - 1, col: COLS - 1 };
+
+        // Initialize the grid
+        function initializeGrid() {
+            let gridElement = document.getElementById('grid');
+            for (let row = 0; row < ROWS; row++) {
+                grid[row] = [];
+                for (let col = 0; col < COLS; col++) {
+                    let cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.dataset.row = row;
+                    cell.dataset.col = col;
+                    if (row === startCell.row && col === startCell.col) {
+                        cell.classList.add('start');
+                    } else if (row === endCell.row && col === endCell.col) {
+                        cell.classList.add('end');
+                    }
+                    grid[row][col] = {
+                        element: cell,
+                        isWall: false,
+                        g: Infinity,
+                        f: Infinity,
+                        parent: null,
+                        visited: false,
+                        closed: false
+                    };
+                    gridElement.appendChild(cell);
+                }
+            }
+        }
+
+        // Run A* algorithm
+        function runAStar() {
+            // Your A* algorithm logic would go here
+            // This is just a basic visualization example
+            alert('A* algorithm will run here!');
+        }
+
+        initializeGrid();
+    </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programación Dinámica: Secuencia Común Más Larga (LCS)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+        #output {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Programación Dinámica: Secuencia Común Más Larga (LCS)</h1>
+    <label for="seq1">Secuencia 1:</label>
+    <input type="text" id="seq1" placeholder="Ejemplo: ABCBDAB">
+    <br>
+    <label for="seq2">Secuencia 2:</label>
+    <input type="text" id="seq2" placeholder="Ejemplo: BDCABA">
+    <br>
+    <button onclick="findLCS()">Encontrar LCS</button>
+
+    <h2>Longitud de la LCS:</h2>
+    <div id="output"></div>
+
+    <script>
+        // Función para encontrar la longitud de la secuencia común más larga (LCS)
+        function findLCS() {
+            let seq1 = document.getElementById('seq1').value;
+            let seq2 = document.getElementById('seq2').value;
+
+            let m = seq1.length;
+            let n = seq2.length;
+            
+            // Crear una matriz para almacenar los subproblemas de LCS
+            let dp = new Array(m + 1).fill(null).map(() => new Array(n + 1).fill(0));
+
+            // Llenar la matriz dp usando el enfoque de programación dinámica
+            for (let i = 1; i <= m; i++) {
+                for (let j = 1; j <= n; j++) {
+                    if (seq1[i - 1] === seq2[j - 1]) {
+                        dp[i][j] = dp[i - 1][j - 1] + 1;
+                    } else {
+                        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                    }
+                }
+            }
+
+            // El resultado final está en dp[m][n]
+            let lcsLength = dp[m][n];
+
+            // Mostrar el resultado en la página
+            document.getElementById('output').innerText = `Longitud de la LCS: ${lcsLength}`;
+        }
+    </script>
+</body>
+</html>

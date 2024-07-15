@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordenamiento por Fusión (Merge Sort)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+        #array {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ordenamiento por Fusión (Merge Sort)</h1>
+    <label for="arrayInput">Ingrese números separados por comas:</label>
+    <input type="text" id="arrayInput" placeholder="Ejemplo: 10,7,8,9,1,5">
+    <button onclick="sortArray()">Ordenar</button>
+
+    <h2>Arreglo Ordenado:</h2>
+    <div id="array"></div>
+
+    <script>
+        // Función para fusionar dos subarreglos
+        function merge(left, right) {
+            let result = [], leftIndex = 0, rightIndex = 0;
+            
+            while (leftIndex < left.length && rightIndex < right.length) {
+                if (left[leftIndex] < right[rightIndex]) {
+                    result.push(left[leftIndex]);
+                    leftIndex++;
+                } else {
+                    result.push(right[rightIndex]);
+                    rightIndex++;
+                }
+            }
+            
+            return result.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+        }
+
+        // Función de Merge Sort
+        function mergeSort(arr) {
+            if (arr.length <= 1) {
+                return arr;
+            }
+
+            const middle = Math.floor(arr.length / 2);
+            const left = arr.slice(0, middle);
+            const right = arr.slice(middle);
+
+            return merge(mergeSort(left), mergeSort(right));
+        }
+
+        // Función para obtener la entrada del usuario, ordenar el arreglo y mostrarlo
+        function sortArray() {
+            let input = document.getElementById('arrayInput').value;
+            let array = input.split(',').map(Number);
+            let sortedArray = mergeSort(array);
+            document.getElementById('array').innerText = sortedArray.join(', ');
+        }
+    </script>
+</body>
+</html>

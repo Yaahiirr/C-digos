@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordenamiento de Burbuja</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+        #array {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ordenamiento de Burbuja</h1>
+    <label for="arrayInput">Ingrese números separados por comas:</label>
+    <input type="text" id="arrayInput" placeholder="Ejemplo: 10,7,8,9,1,5">
+    <button onclick="sortArray()">Ordenar</button>
+
+    <h2>Arreglo Ordenado:</h2>
+    <div id="array"></div>
+
+    <script>
+        // Función para realizar el ordenamiento de burbuja
+        function bubbleSort(arr) {
+            let n = arr.length;
+            for (let i = 0; i < n - 1; i++) {
+                for (let j = 0; j < n - i - 1; j++) {
+                    if (arr[j] > arr[j + 1]) {
+                        // Intercambiar
+                        let temp = arr[j];
+                        arr[j] = arr[j + 1];
+                        arr[j + 1] = temp;
+                    }
+                }
+            }
+            return arr;
+        }
+
+        // Función para obtener la entrada del usuario, ordenar el arreglo y mostrarlo
+        function sortArray() {
+            let input = document.getElementById('arrayInput').value;
+            let array = input.split(',').map(Number);
+            let sortedArray = bubbleSort(array);
+            document.getElementById('array').innerText = sortedArray.join(', ');
+        }
+    </script>
+</body>
+</html>
